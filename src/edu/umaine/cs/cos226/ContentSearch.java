@@ -53,14 +53,12 @@ public class ContentSearch {
                         numFinds++;
                         continue;
                     }
-                    char cBufi = cBuf[i];
-                    if (!mCase)
-                        cBufi = Character.toLowerCase(cBufi);
-                    if (cBufi == target.charAt(cFound)) {
+                    char tChar = target.charAt(cFound);
+                    if (cBuf[i] == tChar || (!mCase && Character.toLowerCase(cBuf[i]) == tChar)) {
                         cFound++;
                         continue;
                     }
-                    if (cBufi == '\n') {
+                    if (cBuf[i] == '\n') {
                         cFound = 0;
                         line++;
                         pos = 1;
