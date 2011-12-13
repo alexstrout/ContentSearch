@@ -1,6 +1,8 @@
 package edu.umaine.cs.cos226;
 
 import java.io.File;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Walks through a file system and searches its contents
@@ -10,6 +12,7 @@ public class FileIterator {
 
     private int fileCount;
     private int numFinds;
+    private List<SearchResult> searchResults;
     private ContentSearch cs;
     private GUIOut out;
 
@@ -20,7 +23,8 @@ public class FileIterator {
     public FileIterator(GUIOut out) {
         this.fileCount = 0;
         this.numFinds = 0;
-        this.cs = new ContentSearch(out);
+        this.searchResults = new LinkedList<SearchResult>();
+        this.cs = new ContentSearch(out,this.searchResults);
         this.out = out;
     }
 
@@ -31,15 +35,11 @@ public class FileIterator {
      * @param filter Filename filters to use, separated by ',' (supports wildcards '*')
      * @param target String to search file contents for
      * @param mCase Match case on contents search
+     * @return List of SearchResults
      */
-    public void IterateDirectory(String dir, boolean incSub, String filter, String target, boolean mCase) {
-        long startTime = System.currentTimeMillis();
+    public List IterateDirectory(String dir, boolean incSub, String filter, String target, boolean mCase) {
         this.IterateDirectory(new File(dir), incSub, filter, target, mCase);
-        long endTime = System.currentTimeMillis();
-        this.out.println("Enumerated " + this.fileCount + " files.");
-        this.out.println("Found " + this.numFinds + " matches.");
-        this.out.println("Search took " + (endTime - startTime)/1000.0 + " seconds.");
-        this.out.println("----------------");
+        return this.searchResults;
     }
     private void IterateDirectory(File dir, boolean incSub, String filter, String target, boolean mCase) {
         CSFilenameFilter fileFilter = new CSFilenameFilter(filter);
@@ -63,5 +63,20 @@ public class FileIterator {
                 numFinds += cs.searchFile(file, target, mCase);
             }
         }
+    }
+    
+    /**
+     * Return number of files enumerated
+     * @return Number of files enumerated
+     */
+    public int getFileCount() {
+        return this.fileCount;
+    }
+    /**
+     * Return number of finds
+     * @return Number of finds
+     */
+    public int getNumFinds() {
+        return this.numFinds;
     }
 }

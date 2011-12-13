@@ -9,7 +9,7 @@ public class ContentSearchGUI extends javax.swing.JFrame {
     /**
      * output stream class for the GUI console, also handles output to file
      */
-    private GUIOut outStream;
+    private GUIOut out;
 
     /**
      * Create a new ContentSearchGUI, assumed run from main
@@ -30,8 +30,8 @@ public class ContentSearchGUI extends javax.swing.JFrame {
                     this.mCase.setSelected(true);
                 if (!this.outCheck.isSelected() && args[i].equalsIgnoreCase("-o") && i+1<args.length && args[i+1] != null) {
                     this.outCheck.setSelected(true);
-                    this.out.setEditable(true);
-                    this.out.setText(args[i+1]);
+                    this.outFile.setEditable(true);
+                    this.outFile.setText(args[i+1]);
                 }
             }
         }
@@ -51,11 +51,12 @@ public class ContentSearchGUI extends javax.swing.JFrame {
         target = new javax.swing.JTextArea();
         mCase = new javax.swing.JCheckBox();
         outCheck = new javax.swing.JCheckBox();
-        out = new javax.swing.JTextField();
+        outFile = new javax.swing.JTextField();
         goBtn = new javax.swing.JButton();
         outputTxt = new javax.swing.JLabel();
         outputPane = new javax.swing.JScrollPane();
         output = new javax.swing.JTextArea();
+        skipResults = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Content Search");
@@ -91,9 +92,9 @@ public class ContentSearchGUI extends javax.swing.JFrame {
             }
         });
 
-        out.setEditable(false);
-        out.setText("Output.txt");
-        out.setToolTipText("File to stream output to.");
+        outFile.setEditable(false);
+        outFile.setText("Output.txt");
+        outFile.setToolTipText("File to stream output to.");
 
         goBtn.setText("Go!");
         goBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -110,6 +111,9 @@ public class ContentSearchGUI extends javax.swing.JFrame {
         output.setRows(5);
         outputPane.setViewportView(output);
 
+        skipResults.setText("Skip Result Output");
+        skipResults.setToolTipText("Skip result output in console / file (for search time testing).");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -120,13 +124,15 @@ public class ContentSearchGUI extends javax.swing.JFrame {
                     .addComponent(outputPane, javax.swing.GroupLayout.DEFAULT_SIZE, 516, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(21, 21, 21)
-                        .addComponent(outputTxt))
+                        .addComponent(outputTxt)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(skipResults))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(mCase)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(outCheck)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(out, javax.swing.GroupLayout.DEFAULT_SIZE, 283, Short.MAX_VALUE)
+                        .addComponent(outFile, javax.swing.GroupLayout.DEFAULT_SIZE, 283, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(goBtn))
                     .addComponent(targetPane, javax.swing.GroupLayout.DEFAULT_SIZE, 516, Short.MAX_VALUE)
@@ -161,12 +167,14 @@ public class ContentSearchGUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(mCase)
                     .addComponent(outCheck)
-                    .addComponent(out, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(outFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(goBtn))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(outputTxt)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(outputTxt)
+                    .addComponent(skipResults))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(outputPane, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE)
+                .addComponent(outputPane, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -174,17 +182,17 @@ public class ContentSearchGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void outCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_outCheckActionPerformed
-        this.out.setEditable(this.outCheck.isSelected());
+        this.outFile.setEditable(this.outCheck.isSelected());
     }//GEN-LAST:event_outCheckActionPerformed
 
     private void goBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goBtnActionPerformed
         if (this.filter.getText().equals(""))
             this.filter.setText("*");
         if (this.outCheck.isSelected()) {
-            this.outStream = new GUIOut(this.output, new java.io.File(this.out.getText()));
+            this.out = new GUIOut(this.output, new java.io.File(this.outFile.getText()));
         }
         else
-            this.outStream = new GUIOut(this.output, null);
+            this.out = new GUIOut(this.output, null);
         String tgt = this.target.getText();
         if (!this.mCase.isSelected()) {
             tgt = tgt.toLowerCase();
@@ -194,7 +202,26 @@ public class ContentSearchGUI extends javax.swing.JFrame {
             this.output.append("ERR: Must have a search target!");
             return;
         }
-        new FileIterator(this.outStream).IterateDirectory(this.dir.getText(), this.incSub.isSelected(), this.filter.getText(), tgt, this.mCase.isSelected());
+
+        //Conduct and log time of actual search
+        long sStartTime = System.currentTimeMillis();
+        FileIterator fileIter = new FileIterator(this.out);
+        java.util.List<SearchResult> searchResults = fileIter.IterateDirectory(this.dir.getText(), this.incSub.isSelected(), this.filter.getText(), tgt, this.mCase.isSelected());
+        long sEndTime = System.currentTimeMillis();
+
+        //Conduct and log time of console printout
+        long pStartTime = System.currentTimeMillis();
+        if (!this.skipResults.isSelected()) {
+            for (SearchResult x : searchResults) {
+                this.out.println(x.toString());
+            }
+        }
+        long pEndTime = System.currentTimeMillis();
+        this.out.println("Enumerated " + fileIter.getFileCount() + " files.");
+        this.out.println("Found " + fileIter.getNumFinds() + " matches.");
+        this.out.println("Search took " + (sEndTime - sStartTime)/1000.0 + " seconds.");
+        this.out.println("Printout took " + (pEndTime - pStartTime)/1000.0 + " seconds.");
+        this.out.println("----------------");
     }//GEN-LAST:event_goBtnActionPerformed
 
     /**
@@ -240,11 +267,12 @@ public class ContentSearchGUI extends javax.swing.JFrame {
     private javax.swing.JButton goBtn;
     private javax.swing.JCheckBox incSub;
     private javax.swing.JCheckBox mCase;
-    private javax.swing.JTextField out;
     private javax.swing.JCheckBox outCheck;
+    private javax.swing.JTextField outFile;
     private javax.swing.JTextArea output;
     private javax.swing.JScrollPane outputPane;
     private javax.swing.JLabel outputTxt;
+    private javax.swing.JCheckBox skipResults;
     private javax.swing.JTextArea target;
     private javax.swing.JScrollPane targetPane;
     private javax.swing.JLabel targetTxt;

@@ -2,6 +2,7 @@ package edu.umaine.cs.cos226;
 
 import java.io.File;
 import java.io.FileReader;
+import java.util.List;
 
 /**
  * Walks through a file searching for a desired string of characters
@@ -11,13 +12,16 @@ import java.io.FileReader;
 public class ContentSearch {
 
     private int BUFFER_LENGTH = 256;
+    private List searchResults;
     private GUIOut out;
 
     /**
      * Creates a new ContentSearch
      * @param out GUIOut class to pass output to
+     * @param searchResults SearchResults list 
      */
-    public ContentSearch(GUIOut out) {
+    public ContentSearch(GUIOut out, List searchResults) {
+        this.searchResults = searchResults;
         this.out = out;
     }
 
@@ -43,7 +47,7 @@ public class ContentSearch {
                 int cBufRead = fin.read(cBuf);
                 for (int i=0; i<cBufRead; i++) {
                     if (cFound == tLength) {
-                        this.out.println("\"" + file.getName() + "\" (" + line + ", " + pos + ")\t" + file);
+                        this.searchResults.add(new SearchResult(file, line, pos));
                         pos += cFound;
                         cFound = 0;
                         numFinds++;
