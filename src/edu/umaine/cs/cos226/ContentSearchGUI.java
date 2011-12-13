@@ -1,7 +1,5 @@
 package edu.umaine.cs.cos226;
 
-import java.io.File;
-
 /**
  * Main application entry point
  * @author Alex
@@ -11,7 +9,7 @@ public class ContentSearchGUI extends javax.swing.JFrame {
     /**
      * output stream class for the GUI console, also handles output to file
      */
-    public GUIOut outStream;
+    private GUIOut outStream;
     
     /**
      * Create a new ContentSearchGUI, assumed run from main
@@ -183,8 +181,7 @@ public class ContentSearchGUI extends javax.swing.JFrame {
         if (this.filter.getText().equals(""))
             this.filter.setText("*");
         if (this.outCheck.isSelected()) {
-            File outFile = new File(this.out.getText());
-            this.outStream = new GUIOut(this.output, outFile);
+            this.outStream = new GUIOut(this.output, new java.io.File(this.out.getText()));
         }
         else
             this.outStream = new GUIOut(this.output, null);

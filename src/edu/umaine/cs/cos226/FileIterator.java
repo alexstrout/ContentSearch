@@ -57,7 +57,6 @@ public class FileIterator {
             }
             else if (file.isFile()) {
                 this.fileCount++;
-                //this.out.println(file); //DBG
                 numFinds += cs.searchFile(file, target, mCase);
             }
         }

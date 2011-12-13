@@ -20,29 +20,10 @@ public class CSFilenameFilter implements FilenameFilter {
         this.filter = filter.toLowerCase().trim();
     }
     
-    /**
-     * Set a new filter to use
-     * Multiple filters can separated by ',' and allow wildcards '*'
-     * @param filter File filters to use
-     */
-    public void setFilter(String filter) {
-        this.filter = filter.toLowerCase().trim();
-    }
-    
-    /**
-     * Get the current filter
-     * @return filter
-     */
-    public String getFilter() {
-        return this.filter;
-    }
-    
     @Override
     public boolean accept(File dir, String name) {
-        //Quick shortcuts for directories and common "all" wildcards
-        if (this.filter.equals("*") || this.filter.equals("*.*"))
-            return true;
-        if (new File(dir, name).isDirectory())
+        //Quick shortcut for directories and common "all" wildcards
+        if (new File(dir, name).isDirectory() || this.filter.equals("*") || this.filter.equals("*.*"))
             return true;
         
         this.name = name.toLowerCase();
