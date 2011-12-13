@@ -15,7 +15,7 @@ public class ContentSearch {
     
     /**
      * Creates a new ContentSearch
-     * @param out GUIOut class to output to
+     * @param out GUIOut class to pass output to
      */
     public ContentSearch(GUIOut out) {
         this.out = out;

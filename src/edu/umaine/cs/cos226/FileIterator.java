@@ -15,6 +15,7 @@ public class FileIterator {
     
     /**
      * Creates a new FileIterator
+     * @param out GUIOut class to pass output to
      */
     public FileIterator(GUIOut out) {
         this.fileCount = 0;
