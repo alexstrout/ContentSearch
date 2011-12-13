@@ -1,0 +1,4 @@
+Searching Files\ for Derp.txt in C:\Program
+--------
+Enumerated 0 files.
+Found 0 matches.
