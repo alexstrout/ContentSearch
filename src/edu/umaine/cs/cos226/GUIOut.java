@@ -9,11 +9,11 @@ import java.io.PrintStream;
  * @author Alex
  */
 public class GUIOut {
-    
+
     javax.swing.JTextArea out;
     PrintStream outFile;
     boolean file;
-    
+
     /**
      * Construct a new GUIOut
      * @param out GUI Output Console
@@ -32,7 +32,7 @@ public class GUIOut {
             }
         }
     }
-    
+
     /**
      * Print a blank line
      */

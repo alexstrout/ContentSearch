@@ -10,7 +10,7 @@ public class ContentSearchGUI extends javax.swing.JFrame {
      * output stream class for the GUI console, also handles output to file
      */
     private GUIOut outStream;
-    
+
     /**
      * Create a new ContentSearchGUI, assumed run from main
      * @param args Command line arguments from main
@@ -20,7 +20,7 @@ public class ContentSearchGUI extends javax.swing.JFrame {
         System.out.println("Command Line:");
         for (int i=0; i<args.length; i++)
             System.out.println(i + " \"" + args[i] + "\"");
-        
+
         if (args.length > 0) {
             this.dir.setText(args[0]);
             for (int i=1; i<args.length; i++) {
@@ -77,7 +77,7 @@ public class ContentSearchGUI extends javax.swing.JFrame {
         target.setColumns(20);
         target.setRows(1);
         target.setTabSize(4);
-        target.setToolTipText("String to search file for. Multiple lines supported.");
+        target.setToolTipText("String to search file for.");
         targetPane.setViewportView(target);
 
         mCase.setText("Match Case");
@@ -102,7 +102,7 @@ public class ContentSearchGUI extends javax.swing.JFrame {
             }
         });
 
-        outputTxt.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        outputTxt.setFont(new java.awt.Font("Tahoma", 1, 11));
         outputTxt.setText("Output");
 
         output.setColumns(20);
@@ -204,7 +204,7 @@ public class ContentSearchGUI extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {

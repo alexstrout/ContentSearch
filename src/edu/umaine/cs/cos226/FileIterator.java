@@ -7,12 +7,12 @@ import java.io.File;
  * @author Alex
  */
 public class FileIterator {
-    
+
     private int fileCount;
     private int numFinds;
     private ContentSearch cs;
     private GUIOut out;
-    
+
     /**
      * Creates a new FileIterator
      * @param out GUIOut class to pass output to
@@ -23,7 +23,7 @@ public class FileIterator {
         this.cs = new ContentSearch(out);
         this.out = out;
     }
-    
+
     /**
      * Iterate a directory based on input
      * @param dir The directory to search in
@@ -33,9 +33,12 @@ public class FileIterator {
      * @param mCase Match case on contents search
      */
     public void IterateDirectory(String dir, boolean incSub, String filter, String target, boolean mCase) {
+        long startTime = System.currentTimeMillis();
         this.IterateDirectory(new File(dir), incSub, filter, target, mCase);
+        long endTime = System.currentTimeMillis();
         this.out.println("Enumerated " + this.fileCount + " files.");
         this.out.println("Found " + this.numFinds + " matches.");
+        this.out.println("Search took " + (endTime - startTime)/1000.0 + " seconds.");
         this.out.println("----------------");
     }
     private void IterateDirectory(File dir, boolean incSub, String filter, String target, boolean mCase) {

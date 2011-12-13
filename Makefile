@@ -29,13 +29,13 @@ CLASSPATH = $(rootdir)/src:$(libs):$(rootdir)/tests
 sourcelist = $(shell find $(rootdir) -name '*.java' | sed "s,[.]/,,g")
 
 # Where the generated documentation will be put
-docdir = ./docs 
+docdir = ./docs
 
-default: all 
+default: all
 
 all:
         # Compile source files
-	@javac -cp $(CLASSPATH) $(sourcelist) 
+	@javac -cp $(CLASSPATH) $(sourcelist)
 
         # Invoke javadoc with using the list in source list
         # -d output generated documentation to docdir
@@ -52,5 +52,3 @@ clean:
 
         # Remove all the class files in the classpath
 	@-find $(rootdir) \( -name "*~" -o -name "*.class" -o -name "runTests" \) -exec rm '{}' \; 
-
-

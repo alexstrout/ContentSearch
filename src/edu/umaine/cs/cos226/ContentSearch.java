@@ -9,10 +9,10 @@ import java.io.FileReader;
  * @author Alex
  */
 public class ContentSearch {
-    
+
     private int BUFFER_LENGTH = 256;
     private GUIOut out;
-    
+
     /**
      * Creates a new ContentSearch
      * @param out GUIOut class to pass output to
@@ -20,7 +20,7 @@ public class ContentSearch {
     public ContentSearch(GUIOut out) {
         this.out = out;
     }
-    
+
     /**
      * Searches a file for a target
      * @param file File to enumerate
