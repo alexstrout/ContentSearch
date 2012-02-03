@@ -17,9 +17,9 @@ public class ContentSearchGUI extends javax.swing.JFrame {
      */
     public ContentSearchGUI(String args[]) {
         initComponents();
-        System.out.println("Command Line:");
-        for (int i=0; i<args.length; i++)
-            System.out.println(i + " \"" + args[i] + "\"");
+//        System.out.println("Command Line:");
+//        for (int i=0; i<args.length; i++)
+//            System.out.println(i + " \"" + args[i] + "\"");
 
         if (args.length > 0) {
             this.dir.setText(args[0]);

@@ -1,13 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.umaine.cs.cos226;
 
 import java.io.File;
 
 /**
- *
+ * A simple search result with public values file, line, position
  * @author Alex
  */
 class SearchResult {
