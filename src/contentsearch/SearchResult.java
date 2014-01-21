@@ -1,4 +1,4 @@
-package edu.umaine.cs.cos226;
+package contentsearch;
 
 import java.io.File;
 
@@ -15,7 +15,7 @@ class SearchResult {
         this.line = line;
         this.pos = pos;
     }
-    
+
     @Override
     public String toString() {
         return "\"" + file.getName() + "\" (" + line + ", " + pos + ")\t" + file;

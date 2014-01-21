@@ -1,4 +1,4 @@
-package edu.umaine.cs.cos226;
+package contentsearch;
 
 import java.io.File;
 import java.io.FileReader;
@@ -18,7 +18,7 @@ public class ContentSearch {
     /**
      * Creates a new ContentSearch
      * @param out GUIOut class to pass output to
-     * @param searchResults SearchResults list 
+     * @param searchResults SearchResults list
      */
     public ContentSearch(GUIOut out, List searchResults) {
         this.searchResults = searchResults;

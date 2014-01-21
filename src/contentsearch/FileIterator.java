@@ -1,4 +1,4 @@
-package edu.umaine.cs.cos226;
+package contentsearch;
 
 import java.io.File;
 import java.util.LinkedList;
@@ -64,7 +64,7 @@ public class FileIterator {
             }
         }
     }
-    
+
     /**
      * Return number of files enumerated
      * @return Number of files enumerated

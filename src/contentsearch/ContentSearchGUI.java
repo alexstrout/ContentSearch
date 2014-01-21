@@ -1,4 +1,4 @@
-package edu.umaine.cs.cos226;
+package contentsearch;
 
 /**
  * Main application entry point
